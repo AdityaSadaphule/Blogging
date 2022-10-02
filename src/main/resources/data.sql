@@ -1,0 +1,1 @@
+Insert into USERS(create_date,date_of_birth,email,is_active,password,phone_number,role_list,username) values('2022-08-09','1999-09-10','aditya@gmail.com',true,'pass@123',75485,'USER','Aditya');

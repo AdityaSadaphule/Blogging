@@ -9,8 +9,6 @@ import java.util.Set;
 @Entity
 public class Users {
     @Id
-    private String userId;
-    @NotNull
     private String username;
     @NotNull
     private String password;
@@ -24,14 +22,6 @@ public class Users {
     private String roleList;
     private String email;
     private String phoneNumber;
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
 
     public String getUsername() {
         return username;
