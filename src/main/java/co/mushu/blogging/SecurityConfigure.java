@@ -30,9 +30,9 @@ public class SecurityConfigure{
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
 
 
-        http.csrf().disable()
+        http.cors().and().csrf().disable()
                 .authorizeRequests()
-                        .antMatchers("/h2-console/**","/login/*","/login","/kuchbhi/*")
+                        .antMatchers("/h2-console/**","/login/*","/login","/kuchbhi/*","/signIn/**","/signIn**")
                                 .permitAll().anyRequest().authenticated().and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
@@ -42,24 +42,6 @@ public class SecurityConfigure{
 
         return http.build();
     }
-
-//    @Bean
-//    public DataSource dataSource() {
-//        return new EmbeddedDatabaseBuilder()
-//                .setType(EmbeddedDatabaseType.H2)
-//                .build();
-//    }
-
-//    @Bean
-//    public UserDetailsManager users(DataSource dataSource) {
-//        UserDetails user = User.withDefaultPasswordEncoder()
-//                .username("user")
-//                .password("password")
-//                .build();
-//        JdbcUserDetailsManager users = new JdbcUserDetailsManager(dataSource);
-//        users.createUser(user);
-//        return users;
-//    }
 
     @Bean
     public UserDetailsService userDetailsService(AuthenticationManagerBuilder authenticationManager) throws Exception {

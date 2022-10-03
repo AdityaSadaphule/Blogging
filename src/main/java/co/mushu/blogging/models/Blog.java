@@ -4,12 +4,9 @@ import com.sun.istack.NotNull;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
-import java.util.Set;
 
 @Entity
-@Table(name = "BLOGS")
-public class Blogs {
+public class Blog {
     @Id
     private String blogId;
     @NotNull

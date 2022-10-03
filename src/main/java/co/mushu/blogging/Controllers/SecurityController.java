@@ -2,9 +2,9 @@ package co.mushu.blogging.Controllers;
 
 import co.mushu.blogging.models.AuthenticationRequest;
 import co.mushu.blogging.models.AuthenticationResponse;
+import co.mushu.blogging.models.Users;
 import co.mushu.blogging.repositories.UsersRepository;
 import co.mushu.blogging.utility.JwtUtil;
-import net.bytebuddy.implementation.bind.annotation.Default;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,6 +13,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.regex.Pattern;
 
 @RestController
 public class SecurityController {
@@ -47,4 +49,21 @@ public class SecurityController {
     public ResponseEntity<?> kuchbhi(@RequestParam(defaultValue = "metha") String name){
         return ResponseEntity.ok("Bhai Kuch Bhiii "+name);
     }
+
+    @RequestMapping(value = "/signIn", method = RequestMethod.POST)
+    public ResponseEntity<?> signIn(@RequestBody Users users){
+        final String username = users.getUsername();
+        usersRepository.save(users);
+        if(!usersRepository.existsById(username)) return ResponseEntity.badRequest().body("Please Try Again");
+        return ResponseEntity.ok().body("User Has Been Created Kindly Login");
+    }
+
+    @RequestMapping(value = "/signIn/")
+    public ResponseEntity<?> checkUserName(@RequestParam String username){
+        if(usersRepository.existsById(username)) return ResponseEntity.badRequest().body("Username Already Exist Try Another Name");
+        return ResponseEntity.ok().body("Username is Valid");
+    }
+
+
+
 }

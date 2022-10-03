@@ -13,7 +13,7 @@ public class Users {
     @NotNull
     private String password;
     @OneToMany(mappedBy="createdBy", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    private Set<Blogs> blogs;
+    private Set<Blog> blogs;
     @NotNull
     private Date createDate;
     @NotNull
@@ -39,11 +39,11 @@ public class Users {
         this.password = password;
     }
 
-    public Set<Blogs> getBlogs() {
+    public Set<Blog> getBlogs() {
         return blogs;
     }
 
-    public void setBlogs(Set<Blogs> blogs) {
+    public void setBlogs(Set<Blog> blogs) {
         this.blogs = blogs;
     }
 

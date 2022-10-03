@@ -16,4 +16,8 @@ public class UserServices {
         return usersRepository.findById(username);
     }
 
+    public boolean checkIfUsernameExist(String username){
+        return usersRepository.existsById(username);
+    }
+
 }
