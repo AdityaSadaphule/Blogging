@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.regex.Pattern;
 
 @RestController
+@CrossOrigin(origins = {"https://**" , "http://**" , "http://localhost:4200"} , methods = {RequestMethod.GET, RequestMethod.POST})
 public class SecurityController {
 
     @Autowired
@@ -29,6 +30,7 @@ public class SecurityController {
     private JwtUtil jwtUtil;
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
+
     private ResponseEntity<?> login(@RequestBody AuthenticationRequest authenticationRequest) throws Exception{
         System.out.println("The login request has came for the user "+authenticationRequest.getUsername()+" with password "+authenticationRequest.getPassword());
         try{
