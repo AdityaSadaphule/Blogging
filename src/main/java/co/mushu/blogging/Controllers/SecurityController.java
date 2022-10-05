@@ -29,8 +29,8 @@ public class SecurityController {
     @Autowired
     private JwtUtil jwtUtil;
 
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
 
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
     private ResponseEntity<?> login(@RequestBody AuthenticationRequest authenticationRequest) throws Exception{
         System.out.println("The login request has came for the user "+authenticationRequest.getUsername()+" with password "+authenticationRequest.getPassword());
         try{
@@ -45,7 +45,6 @@ public class SecurityController {
 
         return ResponseEntity.ok(new AuthenticationResponse(jwt));
     }
-
 
     @RequestMapping("/kuchbhi")
     public ResponseEntity<?> kuchbhi(@RequestParam(defaultValue = "metha") String name){
