@@ -1,6 +1,6 @@
 <h1>Blogging System Backend</h1>
 
-<h3>This are the API which are currently live and there features</h3>
+<h3>These are the API which are currently live and there features</h3>
 <ol>
   <li>
     <h4>Login API :- currently cors is disabled for Frontend testing so I'm not exposing the link </h6>
