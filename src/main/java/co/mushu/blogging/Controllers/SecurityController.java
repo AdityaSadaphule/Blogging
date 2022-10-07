@@ -1,11 +1,11 @@
 package co.mushu.blogging.Controllers;
 
-import co.mushu.blogging.models.AuthenticationRequest;
-import co.mushu.blogging.models.AuthenticationResponse;
-import co.mushu.blogging.models.Users;
+import co.mushu.blogging.models.*;
 import co.mushu.blogging.repositories.UsersRepository;
+import co.mushu.blogging.utility.ConditionalUtility;
 import co.mushu.blogging.utility.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -14,7 +14,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.regex.Pattern;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.TimeZone;
 
 @RestController
 @CrossOrigin(origins = {"https://**" , "http://**" , "http://localhost:4200"} , methods = {RequestMethod.GET, RequestMethod.POST})
@@ -28,6 +31,8 @@ public class SecurityController {
     private AuthenticationManager authenticationManager;
     @Autowired
     private JwtUtil jwtUtil;
+    @Autowired
+    private ConditionalUtility conditionalUtility;
 
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -37,7 +42,9 @@ public class SecurityController {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(),authenticationRequest.getPassword()));
         }catch(BadCredentialsException e){
-            throw new Exception("Incorrect Username or Password");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credentials Invalid Please Try Again.");
+        }catch(Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Something went wrong please try again");
         }
 
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
@@ -52,10 +59,19 @@ public class SecurityController {
     }
 
     @RequestMapping(value = "/signIn", method = RequestMethod.POST)
-    public ResponseEntity<?> signIn(@RequestBody Users users){
-        final String username = users.getUsername();
-        usersRepository.save(users);
-        if(!usersRepository.existsById(username)) return ResponseEntity.badRequest().body("Please Try Again");
+    public ResponseEntity<?> signIn(@RequestBody UserCreation userCreation){
+        final String username = userCreation.getUsername();
+        final String password = userCreation.getPassword();
+        final Date dateOfBirth = userCreation.getDateOfBirth();
+        final String email = userCreation.getEmail();
+        final String phone = userCreation.getPhoneNumber();
+        if(username.toLowerCase().equals("null")) return ResponseEntity.badRequest().body("Invalid Username");
+        if(usersRepository.existsById(username)) return ResponseEntity.badRequest().body("Username Already Taken");
+        String validPW = conditionalUtility.isPasswordValid(password);
+        if(!validPW.equals("valid")) return ResponseEntity.badRequest().body(validPW);
+        final Users user = new Users(username,password,new HashSet<Blog>(), Calendar.getInstance(TimeZone.getDefault()).getTime(),dateOfBirth,true,"USER",email,phone);
+        usersRepository.save(user);
+        if(!usersRepository.existsById(username)) return ResponseEntity.badRequest().body("Kindly try again after sometime");
         return ResponseEntity.ok().body("User Has Been Created Kindly Login");
     }
 

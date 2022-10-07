@@ -23,6 +23,20 @@ public class Users {
     private String email;
     private String phoneNumber;
 
+    public Users(){}
+
+    public Users(String username, String password, Set<Blog> blogs, Date createDate, Date dateOfBirth, Boolean isActive, String roleList, String email, String phoneNumber) {
+        this.username = username;
+        this.password = password;
+        this.blogs = blogs;
+        this.createDate = createDate;
+        this.dateOfBirth = dateOfBirth;
+        this.isActive = isActive;
+        this.roleList = roleList;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+    }
+
     public String getUsername() {
         return username;
     }
