@@ -3,7 +3,7 @@
 <h2>These are the API which are currently live and there features</h3>
 <ol>
   <li>
-    <h3>Login API :- currently cors is disabled for Frontend testing so I'm not exposing the link </h3>
+    <h3>Login API :- currently cors is disabled for Frontend testing so I'm not exposing the link '/login'</h3>
     <p>
       We will have to send an JSON body which will contain the username and password. This will generate a JWT which will be passed in all the API request to all the 
       other APIs. The JWT should be passed in the header as authentication.
@@ -31,7 +31,7 @@
       </ul>
   </li>
   <li>
-    <h4></h4>
+    <h4>SignIn API :- currently cors is disabled for Frontend testing so I'm not exposing the link '/signIn'</h4>
     <p>
     </p>
   </li>
