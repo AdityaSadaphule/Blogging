@@ -44,6 +44,7 @@ public class SecurityController {
         }catch(BadCredentialsException e){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credentials Invalid Please Try Again.");
         }catch(Exception e){
+            System.out.println(e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Something went wrong please try again");
         }
 
@@ -58,14 +59,14 @@ public class SecurityController {
         return ResponseEntity.ok("Bhai Kuch Bhiii "+name);
     }
 
-    @RequestMapping(value = "/signIn", method = RequestMethod.POST)
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ResponseEntity<?> signIn(@RequestBody UserCreation userCreation){
         final String username = userCreation.getUsername();
         final String password = userCreation.getPassword();
         final Date dateOfBirth = userCreation.getDateOfBirth();
         final String email = userCreation.getEmail();
         final String phone = userCreation.getPhoneNumber();
-        if(username.toLowerCase().equals("null")) return ResponseEntity.badRequest().body("Invalid Username");
+        if(username.toLowerCase().equals("null") || !conditionalUtility.isValidUsername(username)) return ResponseEntity.badRequest().body("Invalid Username");
         if(usersRepository.existsById(username)) return ResponseEntity.badRequest().body("Username Already Taken");
         String validPW = conditionalUtility.isPasswordValid(password);
         if(!validPW.equals("valid")) return ResponseEntity.badRequest().body(validPW);
@@ -75,7 +76,7 @@ public class SecurityController {
         return ResponseEntity.ok().body("User Has Been Created Kindly Login");
     }
 
-    @RequestMapping(value = "/signIn/")
+    @RequestMapping(value = "/register/")
     public ResponseEntity<?> checkUserName(@RequestParam String username){
         if(usersRepository.existsById(username)) return ResponseEntity.badRequest().body("Username Already Exist Try Another Name");
         return ResponseEntity.ok().body("Username is Valid");

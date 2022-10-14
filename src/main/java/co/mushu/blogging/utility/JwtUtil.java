@@ -15,7 +15,6 @@ import java.util.function.Function;
 public class JwtUtil {
 
     private final String SECRET_KEY = "PASS";
-    private final int EXPIRATION_PERIOD = 1000*60*60;
 
     public String extractUserName(String token){
         return extractClaim(token, Claims::getSubject);
@@ -44,8 +43,9 @@ public class JwtUtil {
     }
 
     private String createToken(Map<String,Object> claims,String subject){
+        int EXPIRATION_PERIOD = 1000 * 60 * 60;
         return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis()+EXPIRATION_PERIOD))
+                .setExpiration(new Date(System.currentTimeMillis()+ EXPIRATION_PERIOD))
                 .signWith(SignatureAlgorithm.HS256,SECRET_KEY).compact();
     }
 

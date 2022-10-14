@@ -34,7 +34,7 @@ public class SecurityConfigure{
 
         http.cors().and().csrf().disable()
                 .authorizeRequests()
-                        .antMatchers("/h2-console/**","/login/*","/login","/kuchbhi/*","/signIn/**","/signIn**","/kuchbhi","/blogs")
+                        .antMatchers("/h2-console/**","/login/*","/login","/kuchbhi/*","/register/**","/register**","/kuchbhi","/blog**","/blog/all")
                                 .permitAll().anyRequest().authenticated().and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 

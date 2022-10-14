@@ -1,13 +1,7 @@
 package co.mushu.blogging.models;
 
-import com.sun.istack.NotNull;
 
-import javax.persistence.CascadeType;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import java.util.Date;
-import java.util.Set;
 
 public class UserCreation {
     private String username;

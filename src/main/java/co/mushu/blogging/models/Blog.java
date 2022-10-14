@@ -1,5 +1,6 @@
 package co.mushu.blogging.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sun.istack.NotNull;
 
 import javax.persistence.*;
@@ -11,6 +12,7 @@ public class Blog {
     private String blogId;
     @NotNull
     @ManyToOne
+    @JsonManagedReference
     private Users createdBy;
     @NotNull
     private String content;
@@ -20,6 +22,20 @@ public class Blog {
     private Date createdDate;
     @NotNull
     private Long likes;
+
+
+    public Blog(){
+
+    }
+
+    public Blog(String blogId, Users createdBy, String content, String subject, Date createdDate, Long likes) {
+        this.blogId = blogId;
+        this.createdBy = createdBy;
+        this.content = content;
+        this.subject = subject;
+        this.createdDate = createdDate;
+        this.likes = likes;
+    }
 
     public String getBlogId() {
         return blogId;
