@@ -1,5 +1,7 @@
-package co.mushu.blogging.models;
+package co.mushu.blogging.entities;
 
+import co.mushu.blogging.entities.Users;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sun.istack.NotNull;
 
@@ -12,8 +14,8 @@ public class Blog {
     private String blogId;
     @NotNull
     @ManyToOne
-    @JsonManagedReference
-    private Users createdBy;
+    @JsonManagedReference()
+    private UserProfile createdBy;
     @NotNull
     private String content;
     @NotNull
@@ -28,7 +30,7 @@ public class Blog {
 
     }
 
-    public Blog(String blogId, Users createdBy, String content, String subject, Date createdDate, Long likes) {
+    public Blog(String blogId, UserProfile createdBy, String content, String subject, Date createdDate, Long likes) {
         this.blogId = blogId;
         this.createdBy = createdBy;
         this.content = content;
@@ -45,11 +47,11 @@ public class Blog {
         this.blogId = blogId;
     }
 
-    public Users getCreatedBy() {
+    public UserProfile getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(Users createdBy) {
+    public void setCreatedBy(UserProfile createdBy) {
         this.createdBy = createdBy;
     }
 

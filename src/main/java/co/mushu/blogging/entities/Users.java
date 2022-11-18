@@ -1,13 +1,10 @@
-package co.mushu.blogging.models;
+package co.mushu.blogging.entities;
 
 import com.sun.istack.NotNull;
 
 import javax.persistence.*;
-import java.time.ZoneId;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Set;
-import java.util.TimeZone;
 
 @Entity
 public class Users {
@@ -15,8 +12,6 @@ public class Users {
     private String username;
     @NotNull
     private String password;
-    @OneToMany(mappedBy="createdBy", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    private Set<Blog> blogs;
     @NotNull
     private Date createDate;
     @NotNull
@@ -25,22 +20,13 @@ public class Users {
     private String roleList;
     private String email;
     private String phoneNumber;
-    private Date lastBlogCreationTime;
 
-    public Date getLastBlogCreationTime() {
-        return lastBlogCreationTime;
-    }
-
-    public void setLastBlogCreationTime(Date lastBlogCreationTime) {
-        this.lastBlogCreationTime = lastBlogCreationTime;
-    }
 
     public Users(){}
 
-    public Users(String username, String password, Set<Blog> blogs, Date createDate, Date dateOfBirth, Boolean isActive, String roleList, String email, String phoneNumber) {
+    public Users(String username, String password, Date createDate, Date dateOfBirth, Boolean isActive, String roleList, String email, String phoneNumber) {
         this.username = username;
         this.password = password;
-        this.blogs = blogs;
         this.createDate = createDate;
         this.dateOfBirth = dateOfBirth;
         this.isActive = isActive;
@@ -63,14 +49,6 @@ public class Users {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public Set<Blog> getBlogs() {
-        return blogs;
-    }
-
-    public void setBlogs(Set<Blog> blogs) {
-        this.blogs = blogs;
     }
 
     public Date getCreateDate() {

@@ -1,14 +1,12 @@
 package co.mushu.blogging.services;
 
-import co.mushu.blogging.models.Blog;
-import co.mushu.blogging.models.BlogResponse;
+import co.mushu.blogging.entities.Blog;
 import co.mushu.blogging.repositories.BlogsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class BlogServices {
@@ -16,12 +14,8 @@ public class BlogServices {
     @Autowired
     private BlogsRepository blogsRepository;
 
-    public List<BlogResponse> getBlogs(){
-        List<BlogResponse> blogResponses = new ArrayList<>();
-        for(Blog blog : blogsRepository.findAll()){
-            blogResponses.add(new BlogResponse(blog.getCreatedBy().getUsername(),blog.getBlogId(),blog.getSubject(),blog.getContent(),blog.getLikes()));
-        }
-        return blogResponses;
+    public List<Blog> getBlogs(){
+        return blogsRepository.findAll();
     }
 
     public boolean blogIdPresent(String blogId){
@@ -33,9 +27,13 @@ public class BlogServices {
         return blogsRepository.existsById(blog.getBlogId());
     }
 
-    public BlogResponse getBlogById(String id){
-        Blog blog = blogsRepository.findById(id).orElse(null);
-        if(blog == null) return null;
-        return new BlogResponse(blog.getCreatedBy().getUsername(),blog.getBlogId(),blog.getSubject(),blog.getContent(),blog.getLikes());
+    public Blog getBlogById(String id){
+        return blogsRepository.findById(id).orElse(null);
     }
+
+//    public BlogResponse updateBlog(BlogResponse blogResponse){
+//        Blog blog = blogsRepository.findById(blogResponse.getBlogId()).orElse(null);
+//
+//    }
+
 }

@@ -1,6 +1,6 @@
 package co.mushu.blogging;
 
-import co.mushu.blogging.models.Users;
+import co.mushu.blogging.entities.Users;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

@@ -4,21 +4,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.jaas.memory.InMemoryConfiguration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
 @Configuration
 public class SecurityConfigure{
@@ -34,7 +28,7 @@ public class SecurityConfigure{
 
         http.cors().and().csrf().disable()
                 .authorizeRequests()
-                        .antMatchers("/h2-console/**","/login/*","/login","/kuchbhi/*","/register/**","/register**","/kuchbhi","/blog**","/blog/all")
+                        .antMatchers("/h2-console/**","/login/*","/login","/kuchbhi/*","/register/**","/register**","/kuchbhi","/blog**","/blog/**")
                                 .permitAll().anyRequest().authenticated().and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
@@ -59,8 +53,7 @@ public class SecurityConfigure{
     @Bean
     public AuthenticationManager authenticationManager(
             AuthenticationConfiguration authConfig) throws Exception{
-        AuthenticationManager authenticationManager = authConfig.getAuthenticationManager();
-        return authenticationManager;
+        return authConfig.getAuthenticationManager();
     }
 
 

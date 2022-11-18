@@ -1,29 +1,36 @@
-package co.mushu.blogging.models;
+package co.mushu.blogging.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 
-import javax.persistence.CascadeType;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.Date;
 import java.util.Set;
 
-public class UserResponse {
+@Entity
+public class UserProfile {
+    @Id
     private String username;
+    @OneToMany(mappedBy="createdBy", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @JsonIgnore
     private Set<Blog> blogs;
+    @NotNull
     private Date createDate;
+    @NotNull
     private Date dateOfBirth;
     private String email;
     private String phoneNumber;
+    private Date lastBlogCreationTime;
 
-    public UserResponse(String username, Set<Blog> blogs, Date createDate, Date dateOfBirth, String email, String phoneNumber) {
+    public UserProfile() {
+    }
+
+    public UserProfile(String username, Date time, Date dateOfBirth, String email, String phone) {
         this.username = username;
-        this.blogs = blogs;
-        this.createDate = createDate;
+        this.createDate = time;
         this.dateOfBirth = dateOfBirth;
         this.email = email;
-        this.phoneNumber = phoneNumber;
+        this.phoneNumber = phone;
     }
 
     public String getUsername() {
@@ -72,5 +79,13 @@ public class UserResponse {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public Date getLastBlogCreationTime() {
+        return lastBlogCreationTime;
+    }
+
+    public void setLastBlogCreationTime(Date lastBlogCreationTime) {
+        this.lastBlogCreationTime = lastBlogCreationTime;
     }
 }

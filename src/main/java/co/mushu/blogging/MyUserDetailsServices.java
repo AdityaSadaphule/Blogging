@@ -1,6 +1,6 @@
 package co.mushu.blogging;
 
-import co.mushu.blogging.models.Users;
+import co.mushu.blogging.entities.Users;
 import co.mushu.blogging.repositories.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

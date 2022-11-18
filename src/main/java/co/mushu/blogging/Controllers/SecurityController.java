@@ -1,6 +1,8 @@
 package co.mushu.blogging.Controllers;
-
+import co.mushu.blogging.entities.UserProfile;
+import co.mushu.blogging.entities.Users;
 import co.mushu.blogging.models.*;
+import co.mushu.blogging.repositories.UserProfileRepository;
 import co.mushu.blogging.repositories.UsersRepository;
 import co.mushu.blogging.utility.ConditionalUtility;
 import co.mushu.blogging.utility.JwtUtil;
@@ -16,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.TimeZone;
 
 @RestController
@@ -25,6 +26,8 @@ public class SecurityController {
 
     @Autowired
     private UsersRepository usersRepository;
+    @Autowired
+    private UserProfileRepository userProfileRepository;
     @Autowired
     private UserDetailsService userDetailsService;
     @Autowired
@@ -70,8 +73,10 @@ public class SecurityController {
         if(usersRepository.existsById(username)) return ResponseEntity.badRequest().body("Username Already Taken");
         String validPW = conditionalUtility.isPasswordValid(password);
         if(!validPW.equals("valid")) return ResponseEntity.badRequest().body(validPW);
-        final Users user = new Users(username,password,new HashSet<Blog>(), Calendar.getInstance(TimeZone.getDefault()).getTime(),dateOfBirth,true,"USER",email,phone);
+        final Users user = new Users(username,password, Calendar.getInstance(TimeZone.getDefault()).getTime(),dateOfBirth,true,"USER",email,phone);
+        final UserProfile userProfile = new UserProfile(username,Calendar.getInstance(TimeZone.getDefault()).getTime(),dateOfBirth,email,phone);
         usersRepository.save(user);
+        userProfileRepository.save(userProfile);
         if(!usersRepository.existsById(username)) return ResponseEntity.badRequest().body("Kindly try again after sometime");
         return ResponseEntity.ok().body("User Has Been Created Kindly Login");
     }
