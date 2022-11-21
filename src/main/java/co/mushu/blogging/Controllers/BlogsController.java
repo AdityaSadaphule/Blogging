@@ -10,6 +10,7 @@ import co.mushu.blogging.utility.ConditionalUtility;
 import co.mushu.blogging.utility.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.time.ZoneId;
@@ -42,7 +43,7 @@ public class BlogsController {
     public ResponseEntity<?> createBlog(@RequestHeader(HttpHeaders.AUTHORIZATION) String jwt, @RequestBody BlogCreation blogCreation){
         String username = blogCreation.getUsername();
         UserProfile user = userProfileServices.getUserProfileByUsername(username);
-        if(user ==  null) return ResponseEntity.badRequest().body("Username "+username+" not found.");
+        if(user ==  null) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Username "+username+" not found.");
         String jwtUser = jwtUtil.extractUserName(jwt.substring(7));
         if(!jwtUser.equals(username)) return ResponseEntity.badRequest().body("Logged in from "+jwtUser+" account, cannot create blogs in "+username+"'s account");
         Date date = Calendar.getInstance(TimeZone.getTimeZone(ZoneId.of("Etc/UTC"))).getTime();
@@ -53,7 +54,7 @@ public class BlogsController {
             System.out.println(diff);
             long min = diff/(1000*60);
             long sec = diff/(1000);
-            if(diff>0) return ResponseEntity.badRequest().body("The user has to wait for "+min+" minutes and "+(sec%60)+" seconds");
+            if(diff>0) return ResponseEntity.status(HttpStatus.LOCKED).body("The user has to wait for "+min+" minutes and "+(sec%60)+" seconds");
         }
         String blogId = conditionalUtility.generateBlogId(username,blogCreation.getSubject());
         while(blogServices.blogIdPresent(blogId)){
@@ -62,7 +63,7 @@ public class BlogsController {
         }
         Blog blog = new Blog(blogId,user,blogCreation.getContent(),blogCreation.getSubject(),date,0L);
         user.setLastBlogCreationTime(date);
-        if(blogServices.createBlog(blog)) return ResponseEntity.ok().body("The Blog has been created with Id "+blogId);
+        if(blogServices.createBlog(blog)) return ResponseEntity.status(HttpStatus.CREATED).body("The Blog has been created with Id "+blogId);
         return ResponseEntity.badRequest().body("Something went wrong kindly try again");
     }
 
