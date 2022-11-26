@@ -19,6 +19,7 @@ import java.util.*;
 
 @RestController
 @RequestMapping("/blog")
+@CrossOrigin(origins = {"https://**" , "http://**" , "http://localhost:4200"} , methods = {RequestMethod.GET, RequestMethod.POST})
 public class BlogsController {
 
     @Autowired
