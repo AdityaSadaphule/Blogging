@@ -7,6 +7,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -18,7 +20,6 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
 @Configuration
 public class SecurityConfigure{
-
     @Autowired
     private MyUserDetailsServices myUserDetailsServices;
     @Autowired
@@ -27,14 +28,11 @@ public class SecurityConfigure{
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
 
-
-        http.regexMatcher("/*").cors().and().csrf().disable()
+        http.cors().disable().csrf().disable()
                 .authorizeRequests()
-                        .antMatchers("/h2-console/**","/login/*","/login","/kuchbhi/*","/register/**","/register**","/kuchbhi","/blog**","/blog/**")
-                                .permitAll().anyRequest().authenticated().and().sessionManagement()
+                .antMatchers("/h2-console/**","/login/*","/login","/kuchbhi/*","/register/**","/register**","/kuchbhi","/blog**","/blog/**")
+                .permitAll().anyRequest().authenticated().and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
-        //http.regexMatcher("/**").cors().and().csrf().disable();
 
         http.headers().frameOptions().disable();
 
