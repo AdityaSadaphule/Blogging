@@ -9,7 +9,6 @@
 //
 //    static{
 //        System.out.println("Inside the Cors Configuration");
-//        System.out.println("DONE");
 //    }
 //
 //
