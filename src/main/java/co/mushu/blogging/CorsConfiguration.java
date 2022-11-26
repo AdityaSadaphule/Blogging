@@ -9,6 +9,7 @@ public class CorsConfiguration implements WebMvcConfigurer {
 
     static{
         System.out.println("Inside the Cors Configuration");
+        System.out.println("DONE");
     }
 
 
